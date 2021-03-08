@@ -27,6 +27,7 @@ const buttonColors = [
   "info",
   "dark"
 ];
+// randon JSON data generated: https://next.json-generator.com/EJDuqBlx5
 const resumeData = {
   tags: {
     C: 0,
