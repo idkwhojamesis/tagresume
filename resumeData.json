@@ -1,0 +1,297 @@
+[
+  {
+    "heading": "profile",
+    "sections": [
+      {
+        "title": "name",
+        "desc": "Carver Rodriquez"
+      },
+      {
+        "title": "title",
+        "desc": "deserunt enim"
+      },
+      {
+        "title": "summary",
+        "desc": "Ex officia laborum nisi occaecat ipsum. Commodo sunt amet occaecat elit nostrud pariatur incididunt duis id incididunt non consequat."
+      },
+      {
+        "title": "contact",
+        "desc": "example@email.com"
+      }
+    ]
+  },
+  {
+    "heading": "education",
+    "blocks": [
+      {
+        "tags": [],
+        "sections": [
+          {
+            "title": "school",
+            "desc": "Ronbert University"
+          },
+          {
+            "title": "degree",
+            "desc": "B.A., cupidatat sint"
+          },
+          {
+            "title": "date",
+            "desc": "Aug 1983 - Feb 2009"
+          },
+          {
+            "title": "desc",
+            "desc": "Excepteur nisi fugiat sunt duis ut ipsum. Exercitation adipisicing nostrud nisi Lorem nulla magna eiusmod fugiat consequat cillum."
+          }
+        ]
+      },
+      {
+        "tags": [],
+        "sections": [
+          {
+            "title": "school",
+            "desc": "Biflex University"
+          },
+          {
+            "title": "degree",
+            "desc": "B.A., et veniam"
+          },
+          {
+            "title": "date",
+            "desc": "Jan 1971 - Apr 2003"
+          },
+          {
+            "title": "desc",
+            "desc": "Aliquip nulla excepteur cupidatat fugiat mollit velit do minim qui veniam veniam. Laborum laborum velit aliquip minim Lorem magna labore adipisicing tempor consequat ea."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "heading": "experience",
+    "blocks": [
+      {
+        "tags": ["Unity", "Python", "JavaScript", "JavaScript"],
+        "sections": [
+          {
+            "title": "title",
+            "desc": "laborum do"
+          },
+          {
+            "title": "group",
+            "desc": "Tellifly Inc."
+          },
+          {
+            "title": "date",
+            "desc": "Mar 2011 - Jun 1995"
+          },
+          {
+            "title": "desc",
+            "desc": "Anim anim tempor enim cupidatat nulla mollit et do aliqua laboris. Sit amet dolore est deserunt sint magna elit enim Lorem."
+          }
+        ]
+      },
+      {
+        "tags": [
+          "C",
+          "JavaScript",
+          "Unity",
+          "C",
+          "JavaScript",
+          "C++",
+          "Game Dev"
+        ],
+        "sections": [
+          {
+            "title": "title",
+            "desc": "ex esse"
+          },
+          {
+            "title": "group",
+            "desc": "Liquicom Inc."
+          },
+          {
+            "title": "date",
+            "desc": "Jul 2011 - Jul 1988"
+          },
+          {
+            "title": "desc",
+            "desc": "Excepteur velit ipsum Lorem fugiat veniam sint aliqua tempor. Pariatur culpa officia mollit nulla dolore veniam consequat eiusmod adipisicing esse magna."
+          }
+        ]
+      },
+      {
+        "tags": [
+          "C++",
+          "Front-End",
+          "Web",
+          "C++",
+          "Game Dev",
+          "Python",
+          "Python"
+        ],
+        "sections": [
+          {
+            "title": "title",
+            "desc": "minim consequat"
+          },
+          {
+            "title": "group",
+            "desc": "Conferia Inc."
+          },
+          {
+            "title": "date",
+            "desc": "Nov 1982 - May 2016"
+          },
+          {
+            "title": "desc",
+            "desc": "Labore tempor magna incididunt nisi nulla eiusmod ullamco occaecat. Labore cupidatat officia esse labore sunt minim commodo duis quis cillum fugiat deserunt anim."
+          }
+        ]
+      },
+      {
+        "tags": [
+          "Retail",
+          "Front-End",
+          "Game Dev",
+          "Game Dev",
+          "Retail",
+          "JavaScript"
+        ],
+        "sections": [
+          {
+            "title": "title",
+            "desc": "duis culpa"
+          },
+          {
+            "title": "group",
+            "desc": "Isoternia Inc."
+          },
+          {
+            "title": "date",
+            "desc": "Jul 1986 - Jan 1977"
+          },
+          {
+            "title": "desc",
+            "desc": "Officia tempor nulla enim laborum ipsum mollit duis consectetur consequat duis anim. Cupidatat nostrud consectetur nisi officia dolore quis anim aliqua in sint reprehenderit laboris consequat magna."
+          }
+        ]
+      },
+      {
+        "tags": ["VR", "Game Dev", "C++", "C++", "Front-End", "Web", "Retail"],
+        "sections": [
+          {
+            "title": "title",
+            "desc": "commodo aute"
+          },
+          {
+            "title": "group",
+            "desc": "Temorak Inc."
+          },
+          {
+            "title": "date",
+            "desc": "May 1988 - Jan 2002"
+          },
+          {
+            "title": "desc",
+            "desc": "Irure do et occaecat proident adipisicing eu est officia exercitation. Irure culpa proident officia sint."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "heading": "projects",
+    "blocks": [
+      {
+        "tags": ["C", "Unity"],
+        "sections": [
+          {
+            "title": "title",
+            "desc": "ullamco sit"
+          },
+          {
+            "title": "date",
+            "desc": "Jan 1971 - Jul 1974"
+          },
+          {
+            "title": "desc",
+            "desc": "Sunt ad ut amet veniam cillum ut sunt enim nulla officia nulla et nostrud incididunt. Qui duis deserunt cupidatat nisi magna duis excepteur minim pariatur cupidatat proident."
+          }
+        ]
+      },
+      {
+        "tags": ["C++", "C"],
+        "sections": [
+          {
+            "title": "title",
+            "desc": "proident cillum"
+          },
+          {
+            "title": "date",
+            "desc": "Feb 2014 - May 1970"
+          },
+          {
+            "title": "desc",
+            "desc": "Dolore veniam qui quis pariatur ullamco occaecat excepteur aute officia cillum elit consectetur. Dolore enim occaecat adipisicing nulla velit."
+          }
+        ]
+      },
+      {
+        "tags": [
+          "Python",
+          "Game Dev",
+          "Front-End",
+          "C++",
+          "Python",
+          "Game Dev"
+        ],
+        "sections": [
+          {
+            "title": "title",
+            "desc": "esse ullamco"
+          },
+          {
+            "title": "date",
+            "desc": "Apr 2003 - Mar 1977"
+          },
+          {
+            "title": "desc",
+            "desc": "Aute minim laboris aliqua voluptate consectetur id nulla ullamco. Non cupidatat non exercitation sit aliqua aute proident cupidatat nulla nisi."
+          }
+        ]
+      },
+      {
+        "tags": ["VR", "Web", "VR", "VR"],
+        "sections": [
+          {
+            "title": "title",
+            "desc": "laborum cillum"
+          },
+          {
+            "title": "date",
+            "desc": "Oct 1991 - Aug 1986"
+          },
+          {
+            "title": "desc",
+            "desc": "Deserunt velit pariatur officia dolore veniam ex dolore nulla irure laborum aliqua. Veniam cupidatat non eu voluptate sint fugiat enim duis amet ut."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "heading": "skills",
+    "blocks": [
+      "Retail",
+      "Front-End",
+      "C",
+      "JavaScript",
+      "Retail",
+      "Front-End",
+      "Web",
+      "Python",
+      "Retail"
+    ]
+  }
+]
