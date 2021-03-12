@@ -398,7 +398,7 @@ const resumeData = {
     }
   ]
 };
-
+// turn into component and add prop for custom function eg. deleteBlock
 const ButtonEditPopover = (
   <Popover>
     <Popover.Content>
@@ -420,13 +420,12 @@ class Resume extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      resumeJSON: resumeData.resume
+      headings: resumeData.resume
     };
+    this.addHeading = this.addHeading.bind(this);
+    this.deleteHeading = this.deleteHeading.bind(this);
   }
-  updateResume(temp) {
-    this.setState({ resumeJSON: temp });
-  }
-  addHeading(tempResume) {
+  addHeading() {
     const emptyHeading = {
       heading: "heading title",
       blocks: [
@@ -436,34 +435,75 @@ class Resume extends React.Component {
         }
       ]
     };
-    tempResume.push(emptyHeading);
-    this.updateResume(tempResume);
+    this.setState((state) => ({
+      headings: state.headings.concat(emptyHeading)
+    }));
+    console.log("addHeading");
+  }
+  // BROKEN
+  deleteHeading(index) {
+    this.setState((state) => ({
+      headings: state.headings.splice(index, 1) //bug is NOT from index
+    }));
+    console.log("delHeading");
   }
   render() {
-    console.log(this.state.resumeJSON);
-    const headings = [];
-    this.state.resumeJSON.forEach((heading, i) => {
-      headings.push(<Heading headingData={heading} index={heading.heading} />);
+    const headingList = [];
+    this.state.headings.forEach((heading, i) => {
+      headingList.push(
+        <Heading
+          headingData={heading}
+          index={i}
+          name={heading.heading}
+          del={() => this.deleteHeading(i)}
+        />
+      );
     });
     return (
       <Container fluid className="p-2">
         <h1>resume</h1>
-        {headings}
-        <Button variant="light" size="md">
-          add heading +
+        {headingList}
+        <Button variant="light" size="md" onClick={this.addHeading}>
+          + <i>add heading</i>
         </Button>
       </Container>
     );
   }
 }
-
 class Heading extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: this.props.headingData.title,
+      blocks: this.props.headingData.blocks
+    };
+    this.addBlock = this.addBlock.bind(this);
+    this.deleteBlock = this.deleteBlock.bind(this);
+  }
+  addBlock() {
+    const emptyBlock = {
+      tags: [],
+      sections: [{ title: "add title", desc: "add desc" }]
+    };
+    this.setState((state) => ({
+      blocks: state.blocks.concat(emptyBlock) // fixed by adjusting states to be more specific?
+    }));
+    console.log(this.state.blocks);
+    console.log("addBlock");
+  }
+  // broken: same bug as deleteHeading
+  deleteBlock(index) {
+    this.setState((state) => ({
+      blocks: state.blocks.splice(index, 1)
+    }));
+    console.log("delBlock");
+  }
   render() {
-    const heading = this.props.headingData;
-    const blocks = [];
-    heading.blocks.forEach((block) => {
+    const blockList = [];
+    this.state.blocks.forEach((block) => {
+      //bug: forEach being read as a property
       // add key prop
-      blocks.push(<Block blockData={block} />);
+      blockList.push(<Block blockData={block} del={this.deleteBlock} />);
     });
     return (
       <Container fluid className="p-1">
@@ -471,18 +511,22 @@ class Heading extends React.Component {
           <Card.Body>
             <Row>
               <Col xs={10}>
-                <h2 id={this.props.index}>{heading.heading}</h2>
+                <h2 id={this.props.name}>{this.state.title}</h2>
               </Col>
               <Col>
-                <Button variant="outline-danger" size="sm">
+                <Button
+                  variant="outline-danger"
+                  size="sm"
+                  onClick={this.props.del}
+                >
                   x
                 </Button>
               </Col>
             </Row>
-            {blocks}
+            {blockList}
             <Row className="p-2">
-              <Button variant="light" size="md">
-                add block +
+              <Button variant="light" size="md" onClick={this.addBlock}>
+                + <i>add block</i>
               </Button>
             </Row>
           </Card.Body>
@@ -512,13 +556,6 @@ class BlockTag extends React.Component {
     );
   }
 }
-const AddPopover = ({ tags }) => (
-  <Popover>
-    <Popover.Content>
-      <Container>{tags}</Container>
-    </Popover.Content>
-  </Popover>
-);
 class AddBlockTagButton extends React.Component {
   render() {
     /*
@@ -551,7 +588,7 @@ class AddBlockTagButton extends React.Component {
             overlay={ButtonEditPopover}
           >
             <Button variant="light" size="sm" className="py-1">
-              +
+              + <i>add tag</i>
             </Button>
           </OverlayTrigger>
         </Container>
@@ -560,20 +597,78 @@ class AddBlockTagButton extends React.Component {
   }
 }
 class Block extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tags: this.props.blockData.tags,
+      sections: this.props.blockData.sections
+    };
+    this.addSection = this.addSection.bind(this);
+    this.deleteSection = this.deleteSection.bind(this);
+  }
+  addSection() {
+    const emptySection = { title: "stuff", desc: "add desc here" };
+    this.setState((state) => ({
+      sections: state.sections.concat(emptySection) // must be something here and in the last foreach bug
+    }));
+    console.log(this.props.sections);
+    console.log("addSection");
+  }
+  deleteSection(index) {
+    this.setState((state) => ({
+      heading: state.sections.splice(index, 1)
+    }));
+    console.log("delSection");
+  }
   render() {
-    const block = this.props.blockData;
     const tags = [];
-    block.tags.forEach((tag) => {
+    const sections = [];
+    this.state.tags.forEach((tag) => {
       tags.push(
         // add key prop
         <BlockTag text={tag} color={buttonColors[resumeData.tags[tag]]} />
       );
     });
+    this.state.sections.forEach((section, i) => {
+      sections.push(
+        // add key prop
+        <ListGroup.Item className="border border-0">
+          <Section
+            title={section.title}
+            desc={section.desc}
+            del={() => this.deleteSection(i)}
+          />
+        </ListGroup.Item>
+      );
+    });
+    sections.push(
+      <ListGroup.Item className="border border-0 align-self-start">
+        <Button variant="light" size="sm" onClick={this.addSection}>
+          + <i>add section</i>
+        </Button>
+      </ListGroup.Item>
+    );
+    /*
+    {this.state.block.sections.map(
+      ({ title, desc }, index) => {
+        // turn into pushed list?
+        return (
+          <ListGroup.Item className="border border-0">
+            <Section title={title} desc={desc} />
+          </ListGroup.Item>
+        );
+      }
+    )}
+    <ListGroup.Item className="border border-0 align-self-start">
+      <Button variant="light" size="sm">
+        +
+      </Button>
+    </ListGroup.Item> */
     // https://www.freecodecamp.org/news/how-to-add-drag-and-drop-in-react-with-react-beautiful-dnd/#step-3-saving-list-order-after-reordering-items-with-react-beautiful-dnd
     return (
       <Row>
         <Col xs={1} className="align-self-center p-0">
-          <Button variant="outline-danger" size="sm">
+          <Button variant="outline-danger" size="sm" onClick={this.props.del}>
             x
           </Button>
         </Col>
@@ -587,20 +682,7 @@ class Block extends React.Component {
                 </Col>
                 <Col sm={10}>
                   <Container>
-                    <ListGroup>
-                      {block.sections.map(({ title, desc }, index) => {
-                        return (
-                          <ListGroup.Item className="border border-0">
-                            <Section title={title} desc={desc} />
-                          </ListGroup.Item>
-                        );
-                      })}
-                      <ListGroup.Item className="border border-0 align-self-start">
-                        <Button variant="light" size="sm">
-                          +
-                        </Button>
-                      </ListGroup.Item>
-                    </ListGroup>
+                    <ListGroup>{sections}</ListGroup>
                   </Container>
                 </Col>
               </Form.Row>
@@ -628,7 +710,7 @@ class Section extends React.Component {
                   placement="right"
                   overlay={ButtonEditPopover}
                 >
-                  <Button variant="light" size="sm">
+                  <Button variant="light" size="sm" onClick={this.props.del}>
                     {title}
                   </Button>
                 </OverlayTrigger>
