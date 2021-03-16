@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Row,
   Col,
@@ -12,7 +12,10 @@ import {
   Popover,
   OverlayTrigger,
   Dropdown,
-  DropdownButton
+  DropdownButton,
+  Navbar,
+  Nav,
+  NavDropdown
 } from "react-bootstrap";
 //import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./styles.css";
@@ -398,6 +401,8 @@ const resumeData = {
     }
   ]
 };
+
+/*
 // turn into component and add prop for custom function eg. deleteBlock
 const ButtonEditPopover = (
   <Popover>
@@ -414,8 +419,50 @@ const ButtonEditPopover = (
       </ListGroup>
     </Popover.Content>
   </Popover>
-);
-
+);*/
+let ButtonEditPopover = () => {
+  return (
+    <Popover>
+      <Popover.Content>
+        <ListGroup>
+          <ListGroup.Item className="border border-0">
+            <FormControl placeholder="rename..." />
+          </ListGroup.Item>
+          <ListGroup.Item className="border border-0">
+            <Button variant="danger" size="sm">
+              delete
+            </Button>
+          </ListGroup.Item>
+        </ListGroup>
+      </Popover.Content>
+    </Popover>
+  );
+};
+let MainNavbar = () => {
+  return (
+    <Navbar bg="light" expand="sm">
+      <Navbar.Brand href="#home">tagResume</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="mr-auto">
+          <Nav.Link href="#resumes">my resumes</Nav.Link>
+          <Nav.Link href="#edit" active>
+            edit
+          </Nav.Link>
+          <NavDropdown title="more" id="basic-nav-dropdown">
+            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.2">
+              Another action
+            </NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href="#action/3.4">preferences</NavDropdown.Item>
+          </NavDropdown>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
+  );
+};
 class Resume extends React.Component {
   constructor(props) {
     super(props);
@@ -454,14 +501,14 @@ class Resume extends React.Component {
         <Heading
           headingData={heading}
           index={i}
-          name={heading.heading}
           del={() => this.deleteHeading(i)}
         />
       );
     });
     return (
       <Container fluid className="p-2">
-        <h1>resume</h1>
+        <MainNavbar />
+        <h1>edit your details</h1>
         {headingList}
         <Button variant="light" size="md" onClick={this.addHeading}>
           + <i>add heading</i>
@@ -474,7 +521,7 @@ class Heading extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: this.props.headingData.title,
+      title: this.props.headingData.heading,
       blocks: this.props.headingData.blocks
     };
     this.addBlock = this.addBlock.bind(this);
@@ -511,7 +558,10 @@ class Heading extends React.Component {
           <Card.Body>
             <Row>
               <Col xs={10}>
-                <h2 id={this.props.name}>{this.state.title}</h2>
+                <EditSectionDropdown
+                  title={this.state.title}
+                  del={this.props.del}
+                />
               </Col>
               <Col>
                 <Button
@@ -556,13 +606,65 @@ class BlockTag extends React.Component {
     );
   }
 }
-class AddBlockTagButton extends React.Component {
+class AddBlockTagMenu extends React.Component {
   render() {
     /*
-    // show current tags
-    //const ref = React.createRef();
-    const tags = [];
-    resumeData.tags.forEach((t) => {
+    tags: {
+    C: 0,
+    Unity: 1,
+    Retail: 2,
+    JavaScript: 3,
+    "C++": 4,
+    "Game Dev": 5,
+    "Front-End": 6
+  },
+    */
+    const tags = (
+      <div>
+        <Dropdown.Item>
+          <Button variant={buttonColors[0]} size="sm">
+            C
+          </Button>
+        </Dropdown.Item>
+        <Dropdown.Item>
+          <Button variant={buttonColors[1]} size="sm">
+            C++
+          </Button>
+        </Dropdown.Item>
+        <Dropdown.Item>
+          <Button variant={buttonColors[2]} size="sm">
+            Unity
+          </Button>
+        </Dropdown.Item>
+        <Dropdown.Item>
+          <Button variant={buttonColors[3]} size="sm">
+            Retail
+          </Button>
+        </Dropdown.Item>
+        <Dropdown.Item>
+          <Button variant={buttonColors[4]} size="sm">
+            JavaScript
+          </Button>
+        </Dropdown.Item>
+        <Dropdown.Item>
+          <Button variant={buttonColors[5]} size="sm">
+            C++
+          </Button>
+        </Dropdown.Item>
+        <Dropdown.Item>
+          <Button variant={buttonColors[6]} size="sm">
+            Game Dev
+          </Button>
+        </Dropdown.Item>
+        <Dropdown.Item>
+          <Button variant={buttonColors[7]} size="sm">
+            Front-End
+          </Button>
+        </Dropdown.Item>
+      </div>
+    );
+    /* foreach doesnt work for this either
+    this.props.tags.forEach((t) => {
       tags.push(
         <Row className="p-1">
           <Button size="sm" variant={buttonColors[t[1]]}>
@@ -571,28 +673,44 @@ class AddBlockTagButton extends React.Component {
         </Row>
       );
     });
-    <OverlayTrigger
-            trigger="click"
-            placement="right"
-            overlay={<AddPopover tags={tags} />}
-          >
-
-          </OverlayTrigger>
     */
-    return (
-      <Row className="p-1">
-        <Container>
-          <OverlayTrigger
-            trigger="click"
-            placement="right"
-            overlay={ButtonEditPopover}
+    // https://react-bootstrap.github.io/components/dropdowns/#customization
+    // forwardRef again here!
+    // Dropdown needs access to the DOM of the Menu to measure it
+    const CustomMenu = React.forwardRef(
+      ({ children, style, className, "aria-labelledby": labeledBy }, ref) => {
+        const [value, setValue] = useState("");
+        return (
+          <div
+            ref={ref}
+            style={style}
+            className={className}
+            aria-labelledby={labeledBy}
           >
-            <Button variant="light" size="sm" className="py-1">
-              + <i>add tag</i>
-            </Button>
-          </OverlayTrigger>
-        </Container>
-      </Row>
+            <FormControl
+              autoFocus
+              className="mx-3 my-2 w-auto"
+              placeholder="Type to filter..."
+              onChange={(e) => setValue(e.target.value)}
+              value={value}
+            />
+            <ul className="list-unstyled">
+              {React.Children.toArray(children).filter(
+                (child) =>
+                  !value || child.props.children.toLowerCase().startsWith(value)
+              )}
+            </ul>
+          </div>
+        );
+      }
+    );
+    return (
+      <Dropdown>
+        <Dropdown.Toggle variant="light" size="sm" className="py-1">
+          + <i>add tag</i>
+        </Dropdown.Toggle>
+        <Dropdown.Menu as={CustomMenu}>{tags}</Dropdown.Menu>
+      </Dropdown>
     );
   }
 }
@@ -678,7 +796,7 @@ class Block extends React.Component {
               <Form.Row>
                 <Col className="d-flex align-content-start flex-wrap">
                   {tags}
-                  <AddBlockTagButton />
+                  <AddBlockTagMenu />
                 </Col>
                 <Col sm={10}>
                   <Container>
@@ -693,28 +811,35 @@ class Block extends React.Component {
     );
   }
 }
+function EditSectionDropdown(props) {
+  return (
+    <DropdownButton variant="light" title={props.title} size="sm">
+      <Dropdown.Item href="#/rename" disabled="true">
+        <FormControl placeholder="rename..." />
+      </Dropdown.Item>
+      <Dropdown.Item href="#/delete">
+        <Button variant="danger" size="sm" onClick={props.del}>
+          delete
+        </Button>
+      </Dropdown.Item>
+    </DropdownButton>
+  );
+}
 class Section extends React.Component {
   render() {
     const title = this.props.title;
     const desc = this.props.desc;
     //desc: add an OnChange in Form.Control and assign to a function modifying JSON state
     //title: edit titles without making the button a form
+    /*<Button variant="light" size="sm" onClick={this.props.del}>
+                    {title}
+                  </Button> */
     return (
       <Form>
         <InputGroup>
           <Row>
             <Col xs={4} className="text-right">
-              <Form.Label>
-                <OverlayTrigger
-                  trigger="click"
-                  placement="right"
-                  overlay={ButtonEditPopover}
-                >
-                  <Button variant="light" size="sm" onClick={this.props.del}>
-                    {title}
-                  </Button>
-                </OverlayTrigger>
-              </Form.Label>
+              <EditSectionDropdown title={title} del={this.props.del} />
             </Col>
             <Col xs={8}>
               <Form.Control
